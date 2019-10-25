@@ -22,8 +22,8 @@ const (
 	LCD_LINE_1 = 0x80 // LCD RAM address for the 1st line
 	LCD_LINE_2 = 0xC0 // LCD RAM address for the 2nd line
 
-	TIME_PULSE = (5 * time.Millisecond)
-	TIME_DELAY = (5 * time.Millisecond)
+	TIME_PULSE = (200 * time.Microsecond)
+	TIME_DELAY = (30 * time.Microsecond)
 
 	ENABLE = 4
 
@@ -103,12 +103,12 @@ func (d *Device) LcdByte(bits int, mode int) {
 }
 
 func (d *Device) ToggleEnable(bits int) {
-	time.Sleep(TIME_DELAY)
 	d.lcd.Write([]byte{byte(bits | ENABLE)})
 	time.Sleep(TIME_PULSE)
 	d.lcd.Write([]byte{byte(bits & (0xFF - ENABLE))})
 	time.Sleep(TIME_DELAY)
 }
+
 func (d *Device) Close() error {
 	return d.lcd.Close()
 }
